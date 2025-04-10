@@ -1,0 +1,19 @@
+{
+  "app": {
+    "title": "Witaj Świecie!",
+    "welcome": "Witaj w Twojej aplikacji React 18 z TypeScript i Redux",
+    "description": "To prosty przykład aplikacji React 18 z Webpack i TypeScript"
+  },
+  "counter": {
+    "title": "Test Licznika Redux",
+    "increment": "+",
+    "decrement": "-",
+    "reset": "Resetuj",
+    "currentValue": "{{value}}"
+  },
+  "languageSwitcher": {
+    "chooseLanguage": "Wybierz język:",
+    "en": "Angielski",
+    "pl": "Polski"
+  }
+}

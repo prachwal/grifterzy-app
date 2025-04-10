@@ -1,15 +1,20 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Counter from './components/Counter';
+import LanguageSwitcher from './components/LanguageSwitcher';
 
 const App: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>Hello World!</h1>
-        <p>Welcome to your React 18 application with TypeScript & Redux</p>
+        <h1>{t('app.title')}</h1>
+        <p>{t('app.welcome')}</p>
+        <LanguageSwitcher />
       </header>
       <main>
-        <p>This is a simple example of a React 18 app bundled with Webpack and TypeScript</p>
+        <p>{t('app.description')}</p>
         <Counter />
       </main>
     </div>
