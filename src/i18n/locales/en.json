@@ -15,5 +15,33 @@
     "chooseLanguage": "Choose language:",
     "en": "English",
     "pl": "Polish"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "api": {
+    "users": {
+      "title": "Users List",
+      "existingUsers": "Existing Users",
+      "noUsers": "No users found",
+      "addNew": "Add New User",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "addButton": "Add User",
+      "roles": {
+        "user": "User",
+        "admin": "Administrator",
+        "moderator": "Moderator"
+      }
+    },
+    "endpoints": {
+      "title": "API Endpoints",
+      "getAll": "Get all users",
+      "getOne": "Get user by ID",
+      "create": "Create new user"
+    }
   }
 }

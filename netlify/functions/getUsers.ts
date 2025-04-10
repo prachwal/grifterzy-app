@@ -1,6 +1,8 @@
-import { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
+import { Handler, HandlerEvent, HandlerContext, HandlerResponse } from "@netlify/functions";
 
-// Definicja interfejsu dla użytkownika
+// Removed custom HandlerResponse type as it conflicts with the @netlify/functions package
+
+// User interface
 interface User {
   id: number;
   name: string;
@@ -8,7 +10,7 @@ interface User {
   role: string;
 }
 
-// Przykładowe dane
+// Sample data
 const users: User[] = [
   { id: 1, name: "Jan Kowalski", email: "jan@example.com", role: "admin" },
   { id: 2, name: "Anna Nowak", email: "anna@example.com", role: "user" },
@@ -16,9 +18,29 @@ const users: User[] = [
   { id: 4, name: "Marta Lis", email: "marta@example.com", role: "moderator" }
 ];
 
-// Funkcja Netlify
-const handler: Handler = async (event: HandlerEvent, context: HandlerContext) => {
-  // Obsługa metody OPTIONS dla CORS preflight requests
+// Helper function for safe JSON parsing
+const safeJsonParse = (str: string | null): any => {
+  if (!str) return null;
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    console.error("Error parsing JSON:", e);
+    return null;
+  }
+};
+
+// Netlify function
+const handler: Handler = async (event: HandlerEvent, context: HandlerContext): Promise<HandlerResponse> => {
+  // Check environment and debug
+  console.log("Environment:", process.env.NODE_ENV);
+  console.log("Event:", {
+    path: event.path,
+    httpMethod: event.httpMethod,
+    headers: event.headers,
+    queryStringParameters: event.queryStringParameters || {}
+  });
+
+  // Handle OPTIONS method for CORS preflight
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
@@ -32,16 +54,13 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     };
   }
 
-  // Obsługa różnych metod HTTP
   try {
     switch (event.httpMethod) {
       case "GET":
-        // Sprawdzenie, czy szukamy konkretnego użytkownika po ID
         const userId = event.queryStringParameters?.id;
         
         if (userId) {
           const user = users.find(u => u.id === parseInt(userId));
-
           if (!user) {
             return {
               statusCode: 404,
@@ -52,7 +71,6 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
               body: JSON.stringify({ message: "Użytkownik nie został znaleziony" })
             };
           }
-
           return {
             statusCode: 200,
             headers: {
@@ -63,7 +81,6 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
           };
         }
 
-        // Zwróć wszystkich użytkowników
         return {
           statusCode: 200,
           headers: {
@@ -86,9 +103,19 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
         }
 
         try {
-          const userData = JSON.parse(event.body) as Omit<User, "id">;
+          const userData = safeJsonParse(event.body);
+          
+          if (!userData) {
+            return {
+              statusCode: 400,
+              headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+              },
+              body: JSON.stringify({ message: "Nieprawidłowy format JSON" })
+            };
+          }
 
-          // Prosta walidacja
           if (!userData.name || !userData.email) {
             return {
               statusCode: 400,
@@ -100,10 +127,11 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
             };
           }
 
-          // Utworzenie nowego użytkownika
           const newUser: User = {
             id: users.length + 1,
-            ...userData
+            name: userData.name,
+            email: userData.email,
+            role: userData.role || "user"
           };
           users.push(newUser);
 
@@ -116,6 +144,7 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
             body: JSON.stringify(newUser)
           };
         } catch (error) {
+          console.error("Error processing POST:", error);
           return {
             statusCode: 400,
             headers: {
@@ -138,14 +167,16 @@ const handler: Handler = async (event: HandlerEvent, context: HandlerContext) =>
     }
   } catch (error) {
     console.error("Błąd funkcji:", error);
-
     return {
       statusCode: 500,
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
       },
-      body: JSON.stringify({ message: "Wystąpił błąd wewnętrzny serwera" })
+      body: JSON.stringify({ 
+        message: "Wystąpił błąd wewnętrzny serwera",
+        error: error instanceof Error ? error.message : String(error)
+      })
     };
   }
 };

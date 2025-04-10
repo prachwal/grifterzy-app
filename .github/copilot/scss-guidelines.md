@@ -87,7 +87,7 @@ Dobrą praktyką jest tworzenie własnych mixinów i funkcji, które wykorzystuj
 
 Jeśli zobaczysz komunikat podobny do tego:
 
-```
+```text
 Deprecation Warning: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use color.adjust instead.
 ```

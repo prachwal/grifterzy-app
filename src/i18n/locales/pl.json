@@ -15,5 +15,33 @@
     "chooseLanguage": "Wybierz język:",
     "en": "Angielski",
     "pl": "Polski"
+  },
+  "common": {
+    "loading": "Ładowanie...",
+    "error": "Błąd",
+    "success": "Sukces"
+  },
+  "api": {
+    "users": {
+      "title": "Lista Użytkowników",
+      "existingUsers": "Istniejący Użytkownicy",
+      "noUsers": "Nie znaleziono użytkowników",
+      "addNew": "Dodaj Nowego Użytkownika",
+      "name": "Imię i nazwisko",
+      "email": "Email",
+      "role": "Rola",
+      "addButton": "Dodaj Użytkownika",
+      "roles": {
+        "user": "Użytkownik",
+        "admin": "Administrator",
+        "moderator": "Moderator"
+      }
+    },
+    "endpoints": {
+      "title": "Punkty Końcowe API",
+      "getAll": "Pobierz wszystkich użytkowników",
+      "getOne": "Pobierz użytkownika po ID",
+      "create": "Utwórz nowego użytkownika"
+    }
   }
 }
