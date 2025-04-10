@@ -41,6 +41,7 @@ Najważniejsza zmiana to korzystanie z modułów Sass zamiast globalnych funkcji
 ## Przykład użycia
 
 Stary sposób (przestarzały):
+
 ```scss
 .element {
   background-color: lighten($primary-color, 10%);
@@ -50,6 +51,7 @@ Stary sposób (przestarzały):
 ```
 
 Nowy sposób (zalecany):
+
 ```scss
 @use "sass:color";
 @use "sass:math";
@@ -84,6 +86,7 @@ Dobrą praktyką jest tworzenie własnych mixinów i funkcji, które wykorzystuj
 ## Komunikaty o przestarzałych funkcjach
 
 Jeśli zobaczysz komunikat podobny do tego:
+
 ```
 Deprecation Warning: Global built-in functions are deprecated and will be removed in Dart Sass 3.0.0.
 Use color.adjust instead.
@@ -93,7 +96,7 @@ Należy znaleźć wszystkie wystąpienia przestarzałych funkcji i zamienić je 
 
 ## Automatyzacja
 
-W razie potrzeby można użyć narzędzia do automatycznej migracji, które dostępne jest pod adresem: https://sass-lang.com/d/import
+W razie potrzeby można użyć narzędzia do automatycznej migracji, które dostępne jest pod adresem: <https://sass-lang.com/d/import>
 
 ## Lista kontrolna
 
