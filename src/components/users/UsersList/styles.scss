@@ -1,0 +1,62 @@
+@use "sass:color";
+
+.users-list-container {
+  .users-table {
+    margin-bottom: 1.5rem;
+    
+    .MuiTableCell-head {
+      font-weight: bold;
+    }
+  }
+  
+  .user-form {
+    background-color: var(--mui-palette-background-paper, #f8f9fa);
+    padding: 1.5rem;
+    border-radius: 4px;
+    margin-top: 1.5rem;
+    
+    &.edit-user-form {
+      border-left: 4px solid var(--mui-palette-primary-main, #1976d2);
+    }
+    
+    &.add-user-form {
+      border-left: 4px solid var(--mui-palette-success-main, #2e7d32);
+    }
+  }
+  
+  .api-endpoints {
+    background-color: var(--mui-palette-background-paper, #f8f9fa);
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    border-left: 4px solid var(--mui-palette-warning-main, #f57c00);
+    
+    code {
+      background-color: var(--mui-palette-action-hover, #e9ecef);
+      padding: 0.2rem 0.4rem;
+      border-radius: 3px;
+      font-family: monospace;
+      color: var(--mui-palette-text-primary);
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+}
+
+/* Dark theme specific adjustments */
+[data-theme='dark'] {
+  .users-list-container {
+    color: var(--mui-palette-text-primary);
+    
+    .api-endpoints {
+      code {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+    
+    .user-form, .api-endpoints {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+  }
+}

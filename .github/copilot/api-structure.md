@@ -74,7 +74,8 @@ Dla każdego endpointu należy zachować poniższy wzorzec:
     }
     };
 
-// Implementacja pozostałych metod...
+    // Implementacja pozostałych metod...
+    ```
 
 ### Obsługa błędów
 
@@ -89,6 +90,8 @@ Dla każdego endpointu należy zachować poniższy wzorzec:
   "code": "USER_NOT_FOUND" // Opcjonalny kod błędu
 }
 ```
+
+- Loguj błędy po stronie serwera, używając np. biblioteki `debug`.
 
 ### Walidacja danych wejściowych
 
@@ -119,6 +122,8 @@ const validateUserCreation = [
 router.post('/', validateUserCreation, createUser);
 ```
 
+- Można rozważyć użycie DTO (Data Transfer Objects) do walidacji danych.
+
 ## Format odpowiedzi API
 
 Standardowy format odpowiedzi:
@@ -140,6 +145,31 @@ W przypadku błędu:
 }
 ```
 
+Przykłady odpowiedzi:
+
+- Sukces:
+
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 123,
+    "name": "Jan Kowalski",
+    "email": "jan@example.com"
+  }
+}
+```
+
+- Błąd:
+
+```json
+{
+  "status": "error",
+  "message": "Użytkownik nie znaleziony",
+  "code": "USER_NOT_FOUND"
+}
+```
+
 ## Rozszerzanie API
 
 Podczas dodawania nowych endpointów:
@@ -149,3 +179,53 @@ Podczas dodawania nowych endpointów:
 3. Zarejestruj router w głównym pliku `routes/index.ts`
 4. W razie potrzeby, dodaj model w folderze `models/`
 5. Dodaj dokumentację nowego endpointu w tym pliku
+
+## Integracja z interfejsem użytkownika
+
+Podczas integracji API z interfejsem użytkownika:
+
+1. **Wykorzystuj poprawne handlery zdarzeń dla komponentów MUI**:
+   - Każdy typ komponentu MUI może wymagać innego typu zdarzenia:
+     - `TextField` → `React.ChangeEvent<HTMLInputElement>`
+     - `Select` → `SelectChangeEvent` z MUI
+     - Nie używaj wspólnych handlerów dla różnych typów komponentów
+
+2. **Przykład implementacji formularza z poprawnymi handlerami**:
+
+   ```tsx
+   import { SelectChangeEvent } from '@mui/material';
+   
+   // Dla TextField
+   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+     // implementacja dla pól tekstowych
+   };
+   
+   // Dla Select
+   const handleSelectChange = (e: SelectChangeEvent) => {
+     // implementacja dla selektów
+   };
+   ```
+
+3. **Obsługa odpowiedzi z API**:
+   - Zawsze uwzględniaj obsługę stanów ładowania oraz błędów
+   - Po operacji na API (np. dodanie, usunięcie) odświeżaj dane
+   - W przypadku błędu wyświetlaj odpowiedni komunikat użytkownikowi
+
+4. **Walidacja danych po stronie klienta**:
+   - Przed wysłaniem żądania do API waliduj dane również po stronie klienta
+   - Używaj właściwości `required`, `minLength`, itp. dla pól formularza
+   - Rozważ użycie bibliotek do walidacji, np. Formik, React Hook Form
+
+5. W interfejsie użytkownika zawsze korzystaj z komponentów z biblioteki MUI (Material UI), aby zachować spójność wizualną.
+
+6. **Używaj prawidłowej składni dla Grid**:
+   - W projekcie używamy niestandardowej składni dla komponentu Grid
+   - Zamiast atrybutów `xs`, `sm`, i `md` używaj atrybutu `size`:
+   
+   ```tsx
+   <Grid container spacing={3}>
+     <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+       {/* Zawartość */}
+     </Grid>
+   </Grid>
+   ```

@@ -1,39 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector, useAppDispatch } from '../redux/hooks';
-import { increment, decrement, reset } from '../redux/slices/counterSlice';
+import { Button, Typography } from '@mui/material';
 
 const Counter: React.FC = () => {
   const { t } = useTranslation();
-  const count = useAppSelector(state => state.counter.value);
-  const dispatch = useAppDispatch();
+  const [count, setCount] = useState(0);
+
+  const increment = () => setCount(count + 1);
+  const decrement = () => setCount(count - 1);
 
   return (
-    <div className="counter-container">
-      <h2>{t('counter.title')}</h2>
-      <div className="counter-display">
-        <p className="counter-value">{t('counter.currentValue', { value: count })}</p>
-      </div>
-      <div className="counter-controls">
-        <button 
-          className="counter-button decrement"
-          onClick={() => dispatch(decrement())}
-        >
-          {t('counter.decrement')}
-        </button>
-        <button 
-          className="counter-button reset"
-          onClick={() => dispatch(reset())}
-        >
-          {t('counter.reset')}
-        </button>
-        <button 
-          className="counter-button increment"
-          onClick={() => dispatch(increment())}
-        >
-          {t('counter.increment')}
-        </button>
-      </div>
+    <div>
+      <Typography variant="h6">{t('counter.title')}</Typography>
+      <Typography variant="body1">{t('counter.currentValue', { value: count })}</Typography>
+      <Button variant="contained" onClick={increment}>
+        {t('counter.increment')}
+      </Button>
+      <Button variant="contained" onClick={decrement}>
+        {t('counter.decrement')}
+      </Button>
     </div>
   );
 };

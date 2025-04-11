@@ -4,6 +4,19 @@
 
 W projekcie Grifterzy App wykorzystujemy SCSS (Sass) do stylizacji komponentów. Ze względu na przyszłe wersje Dart Sass 3.0.0, należy korzystać z nowszych metod manipulowania kolorami i innymi funkcjami.
 
+## Ważne zasady stylistyczne
+
+1. **Używamy tylko plików SCSS, nie CSS**:
+   - Wszystkie style powinny być pisane w plikach .scss
+   - Nie twórz nowych plików .css
+   - Główny plik stylów projektu to `src/main.scss`
+   - Dla komponentów twórz pliki .scss w ich folderach
+
+2. **Struktura stylów**:
+   - Globalne style i zmienne umieszczaj w `src/main.scss`
+   - Style specyficzne dla komponentów trzymaj w plikach .scss w folderach komponentów
+   - Używaj zagnieżdżonej struktury SCSS dla poprawy czytelności
+
 ## Funkcje przestarzałe vs. nowe
 
 ### Moduły Sass
@@ -83,6 +96,50 @@ Dobrą praktyką jest tworzenie własnych mixinów i funkcji, które wykorzystuj
 }
 ```
 
+## Obsługa motywów w SCSS
+
+Aby zapewnić prawidłową obsługę motywów w SCSS, używaj zmiennych CSS dostarczanych przez Material UI:
+
+```scss
+.element {
+  /* Podstawowe kolory z MUI */
+  background-color: var(--mui-palette-background-paper);
+  color: var(--mui-palette-text-primary);
+  border-color: var(--mui-palette-divider);
+  
+  /* Kolory semantyczne */
+  &.error {
+    color: var(--mui-palette-error-main);
+  }
+}
+```
+
+### Dostosowanie dla ciemnego motywu
+
+Używaj selektora atrybutu `data-theme` do określania stylów specyficznych dla danego motywu:
+
+```scss
+/* Styl domyślny (zwykle jasny) */
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styl dla ciemnego motywu */
+[data-theme='dark'] .card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+```
+
+### Płynne przejścia między motywami
+
+Dodaj właściwość `transition` dla elementów, które zmieniają wygląd:
+
+```scss
+.element {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+```
+
 ## Komunikaty o przestarzałych funkcjach
 
 Jeśli zobaczysz komunikat podobny do tego:
@@ -97,6 +154,7 @@ Należy znaleźć wszystkie wystąpienia przestarzałych funkcji i zamienić je 
 ## Automatyzacja
 
 W razie potrzeby można użyć narzędzia do automatycznej migracji, które dostępne jest pod adresem: <https://sass-lang.com/d/import>
+Rozważ użycie narzędzi do lintingu SCSS, np. Stylelint.
 
 ## Lista kontrolna
 
@@ -105,6 +163,8 @@ W razie potrzeby można użyć narzędzia do automatycznej migracji, które dost
 - [ ] Używaj funkcji matematycznych z modułu `math`
 - [ ] Twórz własne mixiny wykorzystujące nowe metody
 - [ ] Regularnie sprawdzaj komunikaty o przestarzałych funkcjach w trakcie kompilacji
+- [ ] **Nie twórz plików CSS** - używaj tylko SCSS
+- [ ] Używaj zmiennych CSS dla wsparcia tematów
 
 ## Korzyści
 
@@ -112,3 +172,4 @@ W razie potrzeby można użyć narzędzia do automatycznej migracji, które dost
 2. Lepsza kompatybilność z przyszłymi wersjami Sass
 3. Bardziej czytelny i zorganizowany kod
 4. Lepsze wsparcie narzędzi i edytorów (lepsze podpowiedzi)
+5. **Spójność interfejsu dzięki używaniu komponentów z biblioteki MUI (Material UI)**.

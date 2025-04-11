@@ -1,0 +1,137 @@
+@use "sass:color";
+@use "variables" as *;
+@use 'variables' as vars;
+
+// Theme-related CSS custom properties
+:root {
+  // Base colors
+  --theme-primary: #{$primary-color};
+  --theme-secondary: #{$secondary-color};
+  --theme-success: #{$success-color};
+  --theme-danger: #{$danger-color};
+  --theme-background: #{$bg-color};
+  --theme-border: #{$border-color};
+  
+  // Light theme defaults
+  --theme-text: #333333;
+  --theme-text-light: #666666;
+  --theme-card-bg: #ffffff;
+  --theme-input-bg: #ffffff;
+  --theme-code-bg: #f5f5f5;
+  --theme-shadow: rgba(0, 0, 0, 0.1);
+  
+  // Default values as fallbacks
+  --theme-primary-main: vars.$primary-color;
+  --theme-primary-light: color.adjust(vars.$primary-color, $lightness: 15%);
+  --theme-primary-dark: color.adjust(vars.$primary-color, $lightness: -15%);
+  
+  --theme-secondary-main: vars.$secondary-color;
+  --theme-secondary-light: color.adjust(vars.$secondary-color, $lightness: 15%);
+  --theme-secondary-dark: color.adjust(vars.$secondary-color, $lightness: -15%);
+  
+  --theme-background-default: vars.$bg-color;
+  --theme-background-paper: #ffffff;
+  
+  --theme-text-primary: #333333;
+  --theme-text-secondary: #666666;
+}
+
+// Dark theme overrides
+[data-theme='dark'] {
+  --theme-primary: #90caf9;
+  --theme-secondary: #ce93d8;
+  --theme-success: #66bb6a;
+  --theme-danger: #f44336;
+  --theme-background: #121212;
+  --theme-border: #333333;
+  
+  --theme-text: #e0e0e0;
+  --theme-text-light: #aaaaaa;
+  --theme-card-bg: #1e1e1e;
+  --theme-input-bg: #2c2c2c;
+  --theme-code-bg: #2d2d2d;
+  --theme-shadow: rgba(0, 0, 0, 0.5);
+  
+  // MUI overrides
+  .MuiPaper-root {
+    background-color: var(--mui-palette-background-paper);
+  }
+  
+  code {
+    background-color: var(--theme-code-bg);
+    color: var(--theme-text);
+  }
+  
+  // Custom components dark theme overrides
+  .counter-container {
+    background-color: color.adjust(#121212, $lightness: 5%);
+    
+    .counter-value {
+      background-color: #2c2c2c;
+      color: var(--theme-text);
+    }
+  }
+  
+  .api-info {
+    background-color: #1a1a1a;
+    
+    code {
+      background-color: #2d2d2d;
+    }
+  }
+}
+
+// Common theme transitions
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+// Base element theme styles
+body {
+  background-color: var(--mui-palette-background-default, var(--theme-background));
+  color: var(--mui-palette-text-primary, var(--theme-text));
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: var(--theme-background-default);
+  color: var(--theme-text-primary);
+}
+
+.app-header {
+  h1 {
+    color: var(--theme-primary-main);
+    
+    &:hover {
+      color: var(--theme-secondary-main);
+    }
+  }
+}
+
+.counter-container {
+  background-color: var(--theme-background-paper);
+  
+  h2 {
+    color: var(--theme-primary-main);
+  }
+  
+  .counter-value {
+    color: var(--theme-primary-main);
+    background-color: var(--theme-background-paper);
+  }
+}
+
+// Style components using theme variables
+.themed-button {
+  background-color: var(--theme-primary-main);
+  color: white;
+  
+  &:hover {
+    background-color: var(--theme-primary-dark);
+  }
+  
+  &.secondary {
+    background-color: var(--theme-secondary-main);
+    
+    &:hover {
+      background-color: var(--theme-secondary-dark);
+    }
+  }
+}

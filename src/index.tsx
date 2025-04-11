@@ -7,7 +7,8 @@ import App from './App';
 // Import konfiguracji i18n
 import './i18n/i18n';
 
-import './main.scss';
+// Import nowo utworzonego pliku SCSS z nowej lokalizacji
+import './assets/styles/scss/main.scss';
 
 // Create root using React 18's createRoot API
 const rootElement = document.getElementById('root');

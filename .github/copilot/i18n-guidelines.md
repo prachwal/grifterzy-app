@@ -14,6 +14,8 @@ Wszystkie tłumaczenia są przechowywane w katalogu `src/i18n/locales/` w plikac
 - `en.json` - tłumaczenia angielskie
 - `pl.json` - tłumaczenia polskie
 
+Pliki mogą być w formacie JSON lub JSON5.
+
 ## Ważne zasady
 
 1. **Zawsze dodawaj tłumaczenia do wszystkich plików językowych**
@@ -36,6 +38,7 @@ Wszystkie tłumaczenia są przechowywane w katalogu `src/i18n/locales/` w plikac
    - Format: `{{nazwaZmiennej}}`
    - Przykład: `"greeting": "Witaj, {{name}}!"`
    - W kodzie: `t('greeting', { name: 'Jan' })`
+   - Można używać formatowania liczb i dat: `{{value, number}}`, `{{date, datetime}}`
 
 ## Jak dodać nowy tekst
 
@@ -109,6 +112,7 @@ Zawsze testuj aplikację w obu językach:
 1. Przełączaj języki za pomocą komponentu `LanguageSwitcher`
 2. Sprawdź, czy wszystkie teksty są poprawnie przetłumaczone
 3. Upewnij się, że układ strony nie jest uszkodzony przez dłuższe teksty w różnych językach
+4. Rozważ użycie testów automatycznych, np. z `i18next-scanner`.
 
 ## Dodawanie nowego języka
 
@@ -117,3 +121,4 @@ Aby dodać nowy język:
 1. Utwórz nowy plik w `src/i18n/locales/`, np. `de.json` dla niemieckiego
 2. Dodaj język do konfiguracji w `src/i18n/i18n.ts`
 3. Dodaj opcję wyboru języka w komponencie `LanguageSwitcher`
+4. **Upewnij się, że komponenty UI (np. w `LanguageSwitcher`) korzystają z biblioteki MUI (Material UI)** dla spójności interfejsu.

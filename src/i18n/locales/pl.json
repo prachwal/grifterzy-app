@@ -19,7 +19,8 @@
   "common": {
     "loading": "Ładowanie...",
     "error": "Błąd",
-    "success": "Sukces"
+    "success": "Sukces",
+    "language": "Język"
   },
   "api": {
     "users": {

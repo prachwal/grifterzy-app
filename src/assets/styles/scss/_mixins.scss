@@ -1,0 +1,36 @@
+@use "sass:color";
+
+// Box shadow mixin
+@mixin box-shadow($x: 0, $y: 2px, $blur: 10px, $color: rgba(0, 0, 0, 0.1)) {
+  box-shadow: $x $y $blur $color;
+}
+
+// Flex center mixin
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Theme transition mixin
+@mixin theme-transition($properties...) {
+  $transition-list: ();
+  @each $property in $properties {
+    $transition-list: append($transition-list, $property $transition-speed $transition-func, comma);
+  }
+  
+  transition: $transition-list;
+}
+
+// Responsive breakpoints
+@mixin responsive($breakpoint) {
+  @if $breakpoint == "sm" {
+    @media (min-width: 576px) { @content; }
+  } @else if $breakpoint == "md" {
+    @media (min-width: 768px) { @content; }
+  } @else if $breakpoint == "lg" {
+    @media (min-width: 992px) { @content; }
+  } @else if $breakpoint == "xl" {
+    @media (min-width: 1200px) { @content; }
+  }
+}
