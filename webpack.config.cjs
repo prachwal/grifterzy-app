@@ -1,12 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
-
-// In CommonJS, __dirname is already available, no need to create it
-// const __dirname is already defined in CommonJS
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === "production";
@@ -17,12 +12,11 @@ module.exports = (env, argv) => {
     entry: "./src/index.tsx",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "js/[name].[contenthash].js",
-      chunkFilename: "js/[name].[contenthash].chunk.js",
+      filename: "js/[name].js",
       publicPath: "/",
-      clean: true, // Clean the output directory before emit
+      clean: true,
     },
-    devtool: isProduction ? "source-map" : "eval-cheap-module-source-map", // Lepsze mapowanie w trybie dev
+    devtool: isProduction ? "source-map" : "eval-source-map",
     module: {
       rules: [
         // TypeScript files
@@ -72,53 +66,13 @@ module.exports = (env, argv) => {
       extensions: [".tsx", ".ts", ".js", ".jsx"],
     },
     plugins: [
-      // Clean dist folder
-      new CleanWebpackPlugin({
-        cleanStaleWebpackAssets: true,
-        cleanOnceBeforeBuildPatterns: ["**/*"],
-      }),
+      new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: "./public/index.html",
         favicon: "./public/favicon.ico",
-        inject: true, // Automatically inject all JS and CSS files
-        minify: isProduction
-          ? {
-              removeComments: true,
-              collapseWhitespace: true,
-              removeRedundantAttributes: true,
-              useShortDoctype: true,
-              removeEmptyAttributes: true,
-              removeStyleLinkTypeAttributes: true,
-              keepClosingSlash: true,
-              minifyJS: true,
-              minifyCSS: true,
-              minifyURLs: true,
-            }
-          : false,
       }),
       // Extract CSS in production
-      ...(isProduction
-        ? [
-            new MiniCssExtractPlugin({
-              filename: "css/[name].[contenthash].css",
-              chunkFilename: "css/[name].[contenthash].chunk.css",
-            }),
-          ]
-        : []),
-      // Enable source maps in development
-      ...(isProduction
-        ? []
-        : [
-            new webpack.EvalSourceMapDevToolPlugin({
-              exclude: /node_modules/,
-              module: true,
-              columns: true,
-            }),
-          ]),
-      // Use a single DefinePlugin instance
-      new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify(mode),
-      }),
+      ...(isProduction ? [new MiniCssExtractPlugin()] : []),
     ],
     devServer: {
       static: {
@@ -128,70 +82,6 @@ module.exports = (env, argv) => {
       port: 8000,
       hot: true,
       historyApiFallback: true,
-    },
-    optimization: {
-      // Only enable in production
-      minimize: isProduction,
-      splitChunks: {
-        chunks: "all",
-        maxInitialRequests: Infinity,
-        minSize: 20000,
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name(module) {
-              // Get the name of the npm package
-              const packageName = module.context.match(
-                /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-              )[1];
-              // Return a nice bundle name
-              return `npm.${packageName.replace("@", "")}`;
-            },
-            priority: 10,
-          },
-          mui: {
-            test: /[\\/]node_modules[\\/]@mui[\\/]/,
-            name: "vendor-mui",
-            priority: 20,
-          },
-          react: {
-            test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom)[\\/]/,
-            name: "vendor-react",
-            priority: 20,
-          },
-          commons: {
-            name: "commons",
-            minChunks: 2,
-            priority: -10,
-          },
-          muiCore: {
-            test: /[\\/]node_modules[\\/]@mui[\\/]material[\\/]/,
-            name: "vendor-mui-core",
-            priority: 25,
-          },
-          muiIcons: {
-            test: /[\\/]node_modules[\\/]@mui[\\/]icons-material[\\/]/,
-            name: "vendor-mui-icons",
-            priority: 24,
-          },
-          muiSystem: {
-            test: /[\\/]node_modules[\\/]@mui[\\/]system[\\/]/,
-            name: "vendor-mui-system",
-            priority: 23,
-          },
-          muiStyles: {
-            test: /[\\/]node_modules[\\/]@mui[\\/]styles[\\/]/,
-            name: "vendor-mui-styles",
-            priority: 22,
-          },
-          muiOther: {
-            test: /[\\/]node_modules[\\/]@mui[\\/](?!material|icons-material|system|styles)[\\/]/,
-            name: "vendor-mui-other",
-            priority: 21,
-          },
-        },
-      },
-      runtimeChunk: "single",
     },
   };
 };

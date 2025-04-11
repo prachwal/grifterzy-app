@@ -14,6 +14,7 @@ const UsersManagement = lazy(() => import('../features/users/UsersManagement'));
 const About = lazy(() => import('../features/about/About'));
 const Settings = lazy(() => import('../features/settings/Settings'));
 const NotFound = lazy(() => import('../features/common/NotFound'));
+const Login = lazy(() => import('../features/auth/Login'));
 
 // Loading component
 const LoadingComponent = () => (
@@ -40,6 +41,7 @@ const AppRoutes: React.FC = () => {
           <Route path="users" element={<UsersManagement />} />
           <Route path="about" element={<About />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="login" element={<Login />} />
           
           {/* Catch all route for undefined pages */}
           <Route path="*" element={<NotFound />} />

@@ -27,6 +27,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import LoginIcon from '@mui/icons-material/Login';
 
 interface SidebarNavProps {
   onItemClick?: () => void;
@@ -172,6 +173,20 @@ const SidebarNav: React.FC<SidebarNavProps> = ({ onItemClick }) => {
               <InfoIcon />
             </ListItemIcon>
             <ListItemText primary={t('nav.about', 'About Us')} />
+          </ListItemButton>
+        </ListItem>
+        
+        <ListItem disablePadding>
+          <ListItemButton 
+            component={Link}
+            to="/login"
+            selected={location.pathname === '/login'}
+            onClick={handleNavClick}
+          >
+            <ListItemIcon>
+              <LoginIcon />
+            </ListItemIcon>
+            <ListItemText primary={t('nav.login', 'Login')} />
           </ListItemButton>
         </ListItem>
       </List>

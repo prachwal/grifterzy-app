@@ -1,5 +1,5 @@
 // filepath: c:\Users\przem\Code\grifterzy-app\jest.config.js
-export default {
+module.exports = {
   testEnvironment: 'node',
   testMatch: ['<rootDir>/src/**/*.test.ts'],
   transform: {
