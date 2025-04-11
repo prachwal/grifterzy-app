@@ -221,7 +221,7 @@ Podczas integracji API z interfejsem użytkownika:
 6. **Używaj prawidłowej składni dla Grid**:
    - W projekcie używamy niestandardowej składni dla komponentu Grid
    - Zamiast atrybutów `xs`, `sm`, i `md` używaj atrybutu `size`:
-   
+
    ```tsx
    <Grid container spacing={3}>
      <Grid size={{ xs: 12, sm: 6, md: 3 }}>
