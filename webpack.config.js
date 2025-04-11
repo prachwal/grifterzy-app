@@ -1,7 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import DotenvWebpackPlugin from "dotenv-webpack";
 import webpack from "webpack";
 import { dirname } from "path";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
@@ -121,10 +120,6 @@ export default (env, argv) => {
       // Use a single DefinePlugin instance
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(mode),
-      }),
-      // Use DotenvWebpackPlugin for other environment variables
-      new DotenvWebpackPlugin({
-        systemvars: true, // Load all system variables
       }),
     ],
     devServer: {
