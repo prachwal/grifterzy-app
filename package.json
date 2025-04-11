@@ -7,9 +7,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --mode development --open",
-    "build": "npx webpack --config webpack.config.cjs --mode production",
-    "dev": "webpack --mode development",
+    "start": "webpack serve --config webpack.config.cjs --mode development --open",
+    "build": "webpack --config webpack.config.cjs --mode production",
+    "dev": "webpack --config webpack.config.cjs --mode development",
     "test": "npx jest --watchAll=false",
     "netlify:dev": "netlify dev"
   },
